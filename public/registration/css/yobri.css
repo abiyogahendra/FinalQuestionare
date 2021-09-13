@@ -1,0 +1,14 @@
+.hide-dulu{
+    display: none;
+}
+.question-form {
+    padding: 10px 10px 10px 50px;     
+    margin-bottom: -8px;
+}
+.hiden-page{
+    display: none;
+}
+legend{
+    padding-top: 30px;
+    padding-left: 20px;
+}

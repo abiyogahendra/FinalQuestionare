@@ -1,0 +1,1 @@
+dataToken = $("input[name=data_token]").val();
