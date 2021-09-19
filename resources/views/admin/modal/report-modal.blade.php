@@ -12,19 +12,66 @@
                                 <th>Category</th>
                                 <th>Pertanyaan</th>
                                 <th>Jawaban</th>
+                                @if( $comment->count() > 0)
+                                    <!-- <th>cat </th> -->
+                                    <!-- <th>cat2 </th> -->
+                                    <th>Comment </th>
+                                @endif
+                  
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($category as $c)
                                 <tr> 
+
                                     <td rowspan="{{$c->j_quest}}" >{{$c->name}}</td>
-                                        @foreach($answer as $a)
-                                            @if($a->id_category == $c->id_category)
-                                                <td>{{$a->question}}</td>
-                                                <td>{{$jawaban[$a->id_question]}}</td>
-                                                </tr>
+
+                                            @if( $comment->count() > 0 )
+
+                   
+                                                
+                                                <div hidden>{{ $index = 0 }}</div>
+                                                @foreach($answer as $a)
+                                                    @if($a->id_category == $c->id_category)
+
+                                                            <td >{{$a->question}}</td>
+                                                            <td >{{$jawaban[$a->id_question]}}</td> 
+
+                                                        @if($index == 0)
+                                                            @foreach($comment as $com)
+
+                                                                @if($c->id_category == $com->id_category)
+
+                                                                        <td  rowspan="{{$c->j_quest}}" >{{$com->comment}}
+                                                                        </td> 
+                                                                    </tr>
+                                                                @endif
+                                                             @endforeach 
+                                                        @elseif($index > 0)
+                                                            </tr>
+                                                        @endif
+                                                        <div hidden>{{ $index= $index + 1 }}</div>
+                                                       
+                                                    @endif
+                                                @endforeach
+
+                                        
+
+                      
+
+
+                                            @elseif(  $comment->count()== 0)
+                                                @foreach($answer as $a)
+                                                    @if($a->id_category == $c->id_category)
+                                                        <td>{{$a->question}}</td>
+                                                        <td>{{$jawaban[$a->id_question]}}</td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+
+
                                             @endif
-                                        @endforeach
+
                                 </tr>
                             @endforeach
                         </tbody>
