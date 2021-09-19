@@ -1,11 +1,56 @@
 <input id="chartTitle" type="text" name="" value="{{ $resultTitle }}">
 <input id="chartTotal" type="text" name="" value="{{ $resultTotal }}">
 
-<div id="chartView" style="background: #fff; width: 300px">
-    <canvas id="myChart" width="400" height="400"></canvas>
+<div id="chartView" class="col-md-8 row" style="height: 200px;">
+    
+        <div class="col-md-4" style=" width: 250px; background: #fff; padding:0px">
+            <canvas id="myChart" width="250" height="300" style=" width: 250px!important;"></canvas>
+        </div>
+        
+        <div class="col-md-6" style=" background: #fff; padding:0px">
+            <ul id="chartLegend" style="margin: 15% 0%; padding: 0px;"></ul>
+        </div>
+  
 </div>
 
-<a href=""></a>
+
+<style type="text/css">
+    #chartLegend{
+        list-style: none;
+    }         
+    .ssesuai{
+        padding: 5px 20px;
+        background: rgba(153, 102, 255, 0.2);
+        border: solid 2px rgba(153, 102, 255, 1);
+        margin: 0px 10px;;
+    }
+
+    .sesuai{
+        padding: 5px 20px;
+        background: rgba(54, 162, 235, 0.2);
+        border: solid 2px rgba(54, 162, 235, 1);
+        margin: 0px 10px;;
+    }
+    .normal{
+        padding: 5px 20px;
+        background: rgba(75, 192, 192, 0.2);
+        border: solid 2px rgba(75, 192, 192, 1);
+        margin: 0px 10px;;
+    }
+    .ts{
+        padding: 5px 20px;
+        background: rgba(255, 206, 86, 0.2);
+        border: solid 2px rgba(255, 206, 86, 1);
+        margin: 0px 10px;;
+    }
+    .sts{
+        padding: 5px 20px;
+        background: rgba(255, 99, 132, 0.2);
+        border: solid 2px rgba(255, 99, 132, 1);
+        margin: 0px 10px;;
+    }
+
+</style>
 
 
 <div hidden> {{ $setColSpanValue = 2 }} {{ $setColSpanHead = 3 }} @if( $comment->count() > 0) {{ $setColSpanValue = 3 }} {{ $setColSpanHead = 4 }} @endif </div>
@@ -84,7 +129,7 @@
              <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->updated_at }}</td>
         </tr>
         <tr>
-            <td colspan="{{ $setColSpanHead }}" rowspan="8" height="100%">
+            <td colspan="{{ $setColSpanHead }}" style="height:200px">
                 <center>
                 <img download="chart.png" src="{{ URL::to('/') }}/admin/img/chart/respondent_{{ $respondent[0]->id_respondent }}.jpg">
                 </center>

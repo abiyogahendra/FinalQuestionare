@@ -56,34 +56,54 @@ function DownloadReportData(id){
             // myChart.destroy();
             const labelArr = label.split(",");
             const valueArr = value.split(",");
-            // console.log(myArr);
+            console.log(valueArr);
 
-            var options = {
-                tooltips: {
-                    enabled: false
-                },
-                plugins: {
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
-                            dataArr.map(data => {
-                                sum += data;
-                            });
-                            let percentage = (value*100 / sum).toFixed(2)+"%";
-                            return percentage;
-                        },
-                        color: '#fff',
-                    }
+            var total = 0;
+            for (var i = 0; i < valueArr.length; i++) {
+                var valueInt = parseInt(valueArr[i]);
+                total=total+valueInt;
+                console.log("total : "+valueInt);
+            }
+            
+
+            var percentArr = [];
+            for (var i = 0; i < valueArr.length; i++) {
+               console.log(total);
+                var valueInt = parseInt(valueArr[i]);
+                console.log(valueInt);
+                var percentResult = Math.round((valueInt*100)/total);
+                console.log("percent"+percentResult);
+                percentArr.push(percentResult);
+
+            }
+            console.log(percentArr);
+            // var legendArr = [];
+            var legendHtml =  "";
+            for (var i = 0; i < labelArr.length; i++) {
+                // legendArr.push(labelArr[i]+" : "+percentArr[i]);
+                if (i == 0) {
+                    legendHtml = legendHtml+"<li><label class='ssesuai'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
+                }else if(i == 1){
+                    legendHtml = legendHtml+"<li><label class='sesuai'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
+                }else if(i == 2){
+                    legendHtml = legendHtml+"<li><label class='normal'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
+                }else if(i == 3){
+                    legendHtml = legendHtml+"<li><label class='ts'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
+                }else if(i == 4){
+                    legendHtml = legendHtml+"<li><label class='sts'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
+
                 }
-            };
+                // legendHtml = legendHtml+"<li><label></label>"+labelArr[i]+" : "+percentArr[i]+"</li>";
 
+            }
+
+            $("#chartLegend").html(legendHtml);
 
 
             myChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: labelArr,
+                    // labels: labelArr,
                     datasets: [{
                         label: '# of Votes',
                         data: valueArr,
@@ -101,10 +121,13 @@ function DownloadReportData(id){
                             'rgba(255, 206, 86, 1)',
                             'rgba(255, 99, 132, 1)'
                         ],
-                        borderWidth: 1
+                        borderWidth: 1,
                     }]
                 },
-                options : options,
+                options : {
+                    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%> : <%=datasets[i].points[datasets[i].points.length-1].value%><%}%></li><%}%></ul>"
+                    
+                },
            
             });
 
