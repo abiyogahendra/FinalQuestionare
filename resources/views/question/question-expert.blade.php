@@ -54,7 +54,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-submit">
-                            <input class="submit" type="button" value="Kembali" onclick="BackPage('{{$a['id_page']}}')">
+                            <input class="submit" type="button" value="Kembali" onclick="BackPage('{{$a['id_page']}}')" >
                         </div>
                     </div>
                     <div class="col">
