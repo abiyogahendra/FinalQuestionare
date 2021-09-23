@@ -11,6 +11,8 @@ use Carbon\Carbon;
 class SubmitController extends Controller{
     function SubmitAllData(Request $request){
         // dd($request);
+
+        $role = $request['role'];
         $registrasi = explode(';', $request['data_diri']);
         $id_respondent = DB::table('respondent')
             ->insertGetId([
@@ -21,6 +23,7 @@ class SubmitController extends Controller{
                 'phone_number'  => $registrasi[4],
                 'pekerjaan'     => $registrasi[5],
                 'pengalaman'    => $registrasi[6],
+                'role'          => $role,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now(),
             ]);
@@ -46,7 +49,39 @@ class SubmitController extends Controller{
         
         DB::table('answer')
             ->insert($array);
-        
+
+
+        if ($role == 'Expert') {
+           
+                $id_c = DB::table('category')
+                    ->select([
+                        'id_category'
+                    ])
+                    ->get();
+                
+                $j = 0;
+                foreach($id_c as $c){
+
+                    if (!empty($request['comment' .$c->id_category])) {
+                        $arr[$j] = [
+                                'id_category'     => $c->id_category,
+                                'id_respondent'   => $id_respondent,
+                                'comment'     => $request['comment' .$c->id_category],
+                        ];
+                    }else{
+                        $arr[$j] = [
+                                'id_category'     => $c->id_category,
+                                'id_respondent'   => $id_respondent,
+                                'comment'     => "-",
+                        ];                        
+                    }
+                    $j++;
+                }
+
+                DB::table('comment')
+                    ->insert($arr);
+        }
+
         return response()->json([
             'code'      =>200
         ]);

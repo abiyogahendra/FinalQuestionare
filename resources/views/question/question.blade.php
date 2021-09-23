@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="data-expert form-group">
                                     <label for="recipient-name" class="col-form-label">Masukkan Komentar Untuk Bagian Di Atas</label>
-                                    <textarea name="address" id="" cols="30" class="input-data form-control" rows="3" required></textarea>
+                                    <textarea name="comment{{$s['id']}}" id="" cols="30" class="input-data form-control" rows="3" required></textarea>
                                 </div>
                                 <div class="alert alert-danger hide-dulu" role="alert">Tolong  Di Isikan</div>
                                 <div class="row justify-content-center">

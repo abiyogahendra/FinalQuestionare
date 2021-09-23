@@ -1,6 +1,7 @@
 @extends ('master.admin-master')
 
 @section ('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <div class="row data-content">
         <div class="col">
             <div class="row history-user">
@@ -24,6 +25,7 @@
                                                     <th>No. Hp</th>
                                                     <th>Pekerjaan</th>
                                                     <th>Pengalaman</th>
+                                                    <th>Role</th>
                                                     <th>Option</th>
                                                 </tr>
                                             </thead>
@@ -36,7 +38,9 @@
             </div>
         </div>
     </div>
-    
+    <div id="download-view" hidden></div>
+
+
 
 @endsection()
 
@@ -46,6 +50,8 @@
 
 
 @section('custom_script')
+    <script src="{{asset('admin/js/chart.js')}}"></script>
+    <script src="{{asset('admin/js/html2canvas.js')}}"></script>
     <script src="{{asset('admin/js/page/dashboard.js')}}"></script>
 
 @endsection()

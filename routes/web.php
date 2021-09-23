@@ -51,13 +51,17 @@ Route::post('/process-login',[LoginController::class,'LoginAuthentication']);
 
 
 // admin
-Route::group(['middleware' => ['auth']], function(){
+	Route::group(['middleware' => ['auth']], function(){
     
     Route::get('/admin-dashboard',[DashboardAdminController::class,'DashboardIndex']);
     Route::get('/data-report-admin',[DashboardAdminController::class,'ReportDataDashboard']);
 
     // modal
     Route::get('/index-modal-report',[ReportIndexController::class,'IndexModalReport']);
+
+    // report 
+    Route::get('/download-report',[ReportIndexController::class,'DownloadReport']);
+    Route::post('/upload-images',[ReportIndexController::class,'StoreImage']);
 
 
 });
