@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class SubmitController extends Controller{
     function SubmitAllData(Request $request){
-        echo $request;
+        // echo $request;
 
         $role = $request['role'];
         $registrasi = explode(';', $request['data_diri']);
@@ -36,7 +36,7 @@ class SubmitController extends Controller{
             
         $i = 0;
         foreach($id_q as $d){
-            echo "R".$d->id_question." : ".$request['reason' .$d->id_question]."\n";
+            // echo "R".$d->id_question." : ".$request['reason' .$d->id_question]."\n";
             if (!empty($request['reason' .$d->id_question])) {
                 $array[$i] = [
                         'id_respondent'     => $id_respondent,
