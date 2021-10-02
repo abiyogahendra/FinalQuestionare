@@ -25,7 +25,7 @@ function ValidationPerPage(id){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    console.log(data);
+    // console.log(data);
     $.ajax({
         url : 'validation-question',
         data : data,
@@ -33,9 +33,9 @@ function ValidationPerPage(id){
         dataType : 'json',
         success : function(d){
             if(d.code == 200){
-                console.log(id);
-                console.log(d.code);
-                console.log(d.next_page);
+                // console.log(id);
+                // console.log(d.code);
+                // console.log(d.next_page);
                 $('.page-' + id + '').addClass('hiden-page');
                 $('.page-' + d.next_page + '').removeClass('hiden-page');
                 window.scrollTo({top: 0, behavior: 'smooth'});
@@ -55,7 +55,7 @@ function ValidationPerPage(id){
                 var final = "";
                 role = $('#role').val();
                 if (role == "Expert") {
-                    console.log('here');
+                    // console.log('here');
                         final = "role="+ role + " &"+"data_diri=" + $("input[name=nama]").val() + ";" +
                             $("input[name=jenkel]:checked").val() + ";" +
                             $("input[name=umur]").val() + ";" +
@@ -92,7 +92,7 @@ function ValidationPerPage(id){
 
                         
 
-                        console.log(final);
+                        // console.log(final);
 
                         $.ajax({
                             url : 'submit-data',
