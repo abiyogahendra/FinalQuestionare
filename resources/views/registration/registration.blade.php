@@ -55,6 +55,7 @@
                     </div>
                 </div>
             </div>
+
             <form method="POST" class="register-form" id="register-form">
                 <div class="form-group">
                     <div class="form-input inputan">
@@ -154,6 +155,10 @@
                 </div>
                
             </form>
+
+
+
+
         </div>
        
 

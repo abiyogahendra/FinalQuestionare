@@ -5,11 +5,15 @@ function ValidationPerPage(id){
     if (role == "Expert") {
         data = "role="+ role + " &" + "id_page="+ id + " " + $.map($('#form-'+ id +' :input:radio:checked'), function(elem, idx) {
           return "&"+$(elem).attr("name")+"="+ $(elem).val();
-        }).join('') + $.map($('#form-'+ id +' textarea'), function(elem, idx) {
+        }).join('') + $.map($('#form-'+ id +' textarea#'+'comments'), function(elem, idx) {
+          return "&"+$(elem).attr("name")+"="+ $(elem).val();
+        }).join('') + $.map($('#form-'+ id +' textarea#'+'reasons'), function(elem, idx) {
           return "&"+$(elem).attr("name")+"="+ $(elem).val();
         }).join('');
     }else if(role == "Normal"){
         data = "role="+ role + " &" + "id_page="+ id + " " + $.map($('#form-'+ id +' :input:radio:checked'), function(elem, idx) {
+          return "&"+$(elem).attr("name")+"="+ $(elem).val();
+       }).join('') + $.map($('#form-'+ id +' textarea#'+'reasons'), function(elem, idx) {
           return "&"+$(elem).attr("name")+"="+ $(elem).val();
         }).join('');
     }
@@ -21,7 +25,7 @@ function ValidationPerPage(id){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    // console.log(data);
+    console.log(data);
     $.ajax({
         url : 'validation-question',
         data : data,
@@ -51,7 +55,8 @@ function ValidationPerPage(id){
                 var final = "";
                 role = $('#role').val();
                 if (role == "Expert") {
-                        var final = "role="+ role + " &"+"data_diri=" + $("input[name=nama]").val() + ";" +
+                    console.log('here');
+                        final = "role="+ role + " &"+"data_diri=" + $("input[name=nama]").val() + ";" +
                             $("input[name=jenkel]:checked").val() + ";" +
                             $("input[name=umur]").val() + ";" +
                             $("input[name=email]").val() + ";" +
@@ -62,11 +67,14 @@ function ValidationPerPage(id){
                             + $.map($('#full-question :input:radio:checked'), function(elem, idx) {
                                 return "&"+$(elem).attr("name")+"="+ $(elem).val();
                              }).join('')
-                            + $.map($('#full-question textarea'), function(elem, idx) {
+                            + $.map($('#full-question textarea#comments'), function(elem, idx) {
+                                return "&"+$(elem).attr("name")+"="+ $(elem).val();
+                            }).join('') 
+                            + $.map($('#full-question textarea#reasons'), function(elem, idx) {
                                 return "&"+$(elem).attr("name")+"="+ $(elem).val();
                             }).join('');
                 }else if(role == "Normal"){
-                        var final = "role="+ role + " &" +"data_diri=" + $("input[name=nama]").val() + ";" +
+                        final = "role="+ role + " &" +"data_diri=" + $("input[name=nama]").val() + ";" +
                             $("input[name=jenkel]:checked").val() + ";" +
                             $("input[name=umur]").val() + ";" +
                             $("input[name=email]").val() + ";" +
@@ -76,13 +84,15 @@ function ValidationPerPage(id){
                             $('input[name=role]:checked').val() 
                             + $.map($('#full-question :input:radio:checked'), function(elem, idx) {
                                 return "&"+$(elem).attr("name")+"="+ $(elem).val();
-                             }).join('');
+                            }).join('') + $.map($('#full-question textarea#reasons'), function(elem, idx) {
+                               return "&"+$(elem).attr("name")+"="+ $(elem).val();
+                            }).join('');
                 }
 
 
                         
 
-                        // console.log(final);
+                        console.log(final);
 
                         $.ajax({
                             url : 'submit-data',

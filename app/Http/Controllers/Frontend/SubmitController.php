@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class SubmitController extends Controller{
     function SubmitAllData(Request $request){
-        // dd($request);
+        echo $request;
 
         $role = $request['role'];
         $registrasi = explode(';', $request['data_diri']);
@@ -36,14 +36,26 @@ class SubmitController extends Controller{
             
         $i = 0;
         foreach($id_q as $d){
-            $array[$i] = [
-                    'id_respondent'     => $id_respondent,
-                    'id_question'       => $d->id_question,
-                    'answer'            => $request['soal' .$d->id_question],
-                    'created_at'        => Carbon::now(),
-                    'updated_at'        => Carbon::now(),
-
-            ];
+            echo "R".$d->id_question." : ".$request['reason' .$d->id_question]."\n";
+            if (!empty($request['reason' .$d->id_question])) {
+                $array[$i] = [
+                        'id_respondent'     => $id_respondent,
+                        'id_question'       => $d->id_question,
+                        'answer'            => $request['soal' .$d->id_question],
+                        'reason'            => $request['reason' .$d->id_question],
+                        'created_at'        => Carbon::now(),
+                        'updated_at'        => Carbon::now(),
+                ];
+            }else{
+                $array[$i] = [
+                        'id_respondent'     => $id_respondent,
+                        'id_question'       => $d->id_question,
+                        'answer'            => $request['soal' .$d->id_question],
+                        'reason'            => "-",
+                        'created_at'        => Carbon::now(),
+                        'updated_at'        => Carbon::now(),
+                ];
+            }
             $i++;
         }
         
