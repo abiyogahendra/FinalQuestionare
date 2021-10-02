@@ -13,33 +13,38 @@
                                         @if($d['id_category'] == $s['id'])
                                             <label>{{$d['question']}}</label>
                                             <div class="form-radio-group">
-                                                <label>
+                                                <label style="padding: 0px 5px">                                                    
                                                     <input type="radio" value="5" name="soal{{$d['id']}}" Required>
                                                     <span class="label"></span>5
-                                                </label>
-                                                <label>
+                                                </label>                      
+                                                <label style="padding: 0px 5px">
                                                     <input type="radio" value="4" name="soal{{$d['id']}}" Required>
                                                     <span class="label"></span>4
                                                 </label>
-                                                <label>
+                                                <label style="padding: 0px 5px">
                                                     <input type="radio" value="3" name="soal{{$d['id']}}" Required>
                                                     <span class="label"></span>3
                                                 </label>
-                                                <label>
+                                                <label style="padding: 0px 5px">
                                                     <input type="radio" value="2" name="soal{{$d['id']}}" Required>
                                                     <span class="label"></span>2
                                                 </label>
-                                                <label>
+                                                <label style="padding: 0px 5px">
                                                     <input type="radio" value="1" name="soal{{$d['id']}}" Required>
                                                     <span class="label"></span>1
                                                 </label>
                                             </div>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Alasan</label>
+                                                <textarea name="reason{{$d['id']}}" id="reasons" cols="30" class="input-data form-control" rows="2"  required></textarea>
+                                            </div>
+                                            <br>
                                         @endif
                                     @endforeach
                                 </div>
                                 <div class="data-expert form-group">
                                     <label for="recipient-name" class="col-form-label">Masukkan Komentar Untuk Bagian Di Atas</label>
-                                    <textarea name="comment{{$s['id']}}" id="" cols="30" class="input-data form-control" rows="3" required></textarea>
+                                    <textarea name="comment{{$s['id']}}" id="comments" cols="30" class="input-data form-control" rows="3" required></textarea>
                                 </div>
                                 <div class="alert alert-danger hide-dulu" role="alert">Tolong  Di Isikan</div>
                                 <div class="row justify-content-center">
