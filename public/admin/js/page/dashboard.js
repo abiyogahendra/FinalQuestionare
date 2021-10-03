@@ -1,3 +1,5 @@
+$("#canvas-generator").hide();
+
 function DetailReportData(id){
      $('#content_modal').html("");
     $.ajaxSetup({
@@ -22,8 +24,10 @@ function DetailReportData(id){
 }
 
 
-function DownloadReportData(id){
-     $('#download-view').html("");
+
+
+function DownloadReportData(id_respondent){
+    $('#download-view').html("");
 
     $.ajaxSetup({
         headers: {
@@ -33,116 +37,75 @@ function DownloadReportData(id){
     $.ajax({
         url : '/download-report',
         data : {
-            id_respondent : id,
+            id_respondent : id_respondent,
         },
         dataType : 'html',
         type : 'get',
         success : function(respon){
+            $("#canvas-generator").show();
 
             let reg = /<div hidden>.*?<\/div>/g; 
             let result = respon.replace(reg, "");
 
-            console.log(result);
+            // console.log(result);
             $('#download-view').html(result);
 
 
-            const label = $("#chartTitle").val();
-            const value = $("#chartTotal").val();
-            var ctx = document.getElementById('myChart');
+            // const dataChart = $("#dataChart").val();
+            // const dataPage = $("#dataPage").val();
 
-            var myChart = new Chart(ctx, { type: 'pie' });
-
-            myChart.destroy();
-            // myChart.destroy();
-            const labelArr = label.split(",");
-            const valueArr = value.split(",");
-            console.log(valueArr);
-
-            var total = 0;
-            for (var i = 0; i < valueArr.length; i++) {
-                var valueInt = parseInt(valueArr[i]);
-                total=total+valueInt;
-                console.log("total : "+valueInt);
-            }
-            
-
-            var percentArr = [];
-            for (var i = 0; i < valueArr.length; i++) {
-               console.log(total);
-                var valueInt = parseInt(valueArr[i]);
-                console.log(valueInt);
-                var percentResult = Math.round((valueInt*100)/total);
-                console.log("percent"+percentResult);
-                percentArr.push(percentResult);
-
-            }
-            console.log(percentArr);
-            // var legendArr = [];
-            var legendHtml =  "";
-            for (var i = 0; i < labelArr.length; i++) {
-                // legendArr.push(labelArr[i]+" : "+percentArr[i]);
-                if (i == 0) {
-                    legendHtml = legendHtml+"<li><label class='ssesuai'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
-                }else if(i == 1){
-                    legendHtml = legendHtml+"<li><label class='sesuai'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
-                }else if(i == 2){
-                    legendHtml = legendHtml+"<li><label class='normal'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
-                }else if(i == 3){
-                    legendHtml = legendHtml+"<li><label class='ts'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
-                }else if(i == 4){
-                    legendHtml = legendHtml+"<li><label class='sts'></label>"+labelArr[i]+" : "+percentArr[i]+"%</li>";
-
-                }
-                // legendHtml = legendHtml+"<li><label></label>"+labelArr[i]+" : "+percentArr[i]+"</li>";
-
-            }
-
-            $("#chartLegend").html(legendHtml);
+            // const pageJson = JSON.parse(dataPage);
 
 
-            myChart = new Chart(ctx, {
-                type: 'pie',
+
+            $("input.masterChart").each(function(){
+              // var idInput = $(this).attr('id'); 
+              var name = $(this).attr('name'); 
+              var label = $('#label'+name).val(); 
+              var data = $(this).val(); 
+
+              // console.log(name);
+              // console.log(label[0]);
+              // console.log(data[1]);
+
+
+              arrLabel = label.split(",");
+              arrData = data.split(",");
+
+              new Chart(document.getElementById(name), {
+                type: 'radar',
                 data: {
-                    // labels: labelArr,
-                    datasets: [{
-                        label: '# of Votes',
-                        data: valueArr,
-                        backgroundColor: [
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(255, 99, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1,
-                    }]
+                  labels: arrLabel,
+                  datasets: [{
+                    label: name,
+                    data: arrData,
+                  }],
                 },
-                options : {
-                    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%> : <%=datasets[i].points[datasets[i].points.length-1].value%><%}%></li><%}%></ul>"
-                    
-                },
-           
+                options: {
+                  tooltips: {
+                    callbacks: {
+                      label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel;
+                      }
+                    }
+                  }
+                }
+              });
+
+
             });
 
 
 
 
-
-
             // console.log(respon);
-            html2canvas(document.getElementById("chartView"), {
+            html2canvas(document.getElementById('canvas-generator'), {
                 onrendered: function (canvas) {
-                    var img = canvas.toDataURL("image/jpg"); //image data of canvas
+                    img = canvas.toDataURL("image/jpg"); //image data of canvas
 
+                    $("#chart-image").attr('src');
 
-                    // console.log(img);
+                    console.log(img);
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -151,22 +114,20 @@ function DownloadReportData(id){
                     $.ajax({
                         type:'POST',
                         url: '/upload-images',
-                        data: {img : img, id_respondent: id},
+                        data: {img : img, id_respondent: id_respondent},
                         // contentType: false,
                         // processData: false,
                         dataType : 'html',
                         success: function(response){
                             console.log(response);
+                            $("#canvas-generator").hide();
+
                         }
                     });
 
 
                 }
             });
-
-
-
-
 
           
                 var data_type = 'data:application/vnd.ms-excel';
@@ -175,15 +136,56 @@ function DownloadReportData(id){
 
                 var a = document.createElement('a');
                 a.href = data_type + ', ' + table_html;
-                a.download = 'report_responden_id_'+id+'.xls';
+                a.download = 'report_responden_id_'+id_respondent+'.xls';
                 a.click();
         
+
+
+
+                // var fileName = 'report_responden_id_'+id_respondent;
+                // var fileType = "xlsx";
+
+                // var table = document.getElementById("download-report");
+                // var wb = XLSX.utils.table_to_book(table, {sheet: "Sheet JS"});
+                // return XLSX.writeFile(wb, null || fileName + "." + (fileType || "xlsx"));
+
+
         }
     })
 
 
+
+
+
 }
 
+
+
+function draw(id, point, lable) {
+        console.log(id);
+        console.log(point);
+        console.log(lable);
+            new Chart(document.getElementById(id), {
+              type: 'radar',
+              data: {
+                labels: lable,
+                datasets: [{
+                  label: id,
+                  data: point,
+                }],
+              },
+              options: {
+                tooltips: {
+                  callbacks: {
+                    label: function(tooltipItem, data) {
+                      return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel;
+                    }
+                  }
+                }
+              }
+            });
+
+}
 
 
 
@@ -254,7 +256,10 @@ $(document).ready(function(){
                 return ' <div class="row justify-content-center"> <div class="col" style="text-align:center"> <a href="javascript:void(0)" style="color:black" onclick="DetailReportData('+data+')"><i class="fa fa-eye"></i></a> |  <a href="javascript:void(0)" style="color:black" onclick="DownloadReportData('+data+')"><i class="fa fa-download"></i></a></div></div>';
             }
         },
-            
         ],
     });
+
+
+
+
 })
