@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div id="download-view" hidden></div>
+    <div id="download-view" style="height: 0; overflow: auto;"></div>
 
 
 
@@ -53,5 +53,11 @@
     <script src="{{asset('admin/js/chart.js')}}"></script>
     <script src="{{asset('admin/js/html2canvas.js')}}"></script>
     <script src="{{asset('admin/js/page/dashboard.js')}}"></script>
+    <script src="{{asset('admin/js/excel/xlsx.full.min.js')}}"></script>
+    <script src="{{asset('admin/js/excel/shim.min.js')}}"></script>
+    
+    <script src="{{asset('admin/js/excel/Blob.js')}}"></script>
+    <script src="{{asset('admin/js/excel/FileSaver.js')}}"></script>
+   
 
 @endsection()

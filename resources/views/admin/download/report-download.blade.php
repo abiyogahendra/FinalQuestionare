@@ -1,210 +1,459 @@
-<input id="chartTitle" type="text" name="" value="{{ $resultTitle }}">
-<input id="chartTotal" type="text" name="" value="{{ $resultTotal }}">
+@if($comment->count() > 0)   
 
-<div id="chartView" class="col-md-8 row" style="height: 200px;">
-    
-        <div class="col-md-4" style=" width: 250px; background: #fff; padding:0px">
-            <canvas id="myChart" width="250" height="300" style=" width: 250px!important;"></canvas>
+
+    <input hidden id="dataPage" type="" name="" value="{{$page}}">
+    @foreach($result as $key => $rest)
+        <input hidden id="label{{$rest->name}}"  type="" name="{{$rest->name}}" value="{{$rest->title}}">
+        <input hidden id="data{{$rest->name}}" class="masterChart" type="" name="{{$rest->name}}" value="{{$rest->rate}}">
+    @endforeach
+
+    <div id="canvas-generator" class=" row" style="height: auto; padding: 0px; margin: 0px; width: 1414px; position: absolute; top: 20%; z-index: -99999999">
+
+        @foreach($page as $pages)
+            <div id="{{$pages->name}}-Box" class="col-md-4 padding-image" style=" background: #fff; padding: 0 5px">
+                <canvas id="{{$pages->name}}" width="250" height="300" style=" width: 250px!important;"></canvas>
+
+                <center>
+                <table border="1">
+                    <tbody>
+                        @if($pages->id_page == $pages->id_page)
+
+                      
+                                <tr>  
+                                    @foreach($comment as $cm)
+                                        @if($pages->id_page == $cm->id_page)
+                                    
+
+                                            <td style="font-size:10px; line-height: 12px; font-weight: bold; border:2px solid" ><center><b>{{$cm->name}}</b></center></td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    @foreach($comment as $cm)
+                                        @if($pages->id_page == $cm->id_page)
+                                            
+
+                                            <td style="font-size:11px; border:2px solid"> <center>{{$cm->rate}}</center></td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                       
+
+                        @endif
+                    </tbody>
+                </table>
+                </center>
+            </div>
+        @endforeach
+
+    </div>
+
+
+    <div hidden> {{ $setColSpanValue = 2 }} {{ $setColSpanHead = 3 }} @if( $comment->count() > 0) {{ $setColSpanValue = 3 }} {{ $setColSpanHead = 4 }} @endif </div>
+
+    <table border="1" id="download-report" hidden>
+    <tbody>
+        @foreach($page as $p)
+
+                @foreach($category as $c)
+                    @if($p->id_page == $c->id_page)
+
+                        @if($p->name == $c->name)
+                            <tr>
+                                <th colspan="10"><h1>{{$p->name}}</h1></th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">{{$c->name}}</th>
+                                 <!-- <th>id cat</th> -->
+
+                                <th>5</th>
+                                <th>4</th>
+                                <th>3</th>
+                                <th>2</th>
+                                <th>1</th>
+                                <th>Rata-Rata</th>
+                                <th>Penilan Deskriptif</th>
+                            </tr>
+
+                        @elseif($c->name == "Penilaian Umum")
+                            <tr>
+                                <th colspan="10"><h1>{{$c->name}}</h1></th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">{{$c->name}}</th>
+                                 <!-- <th>id cat</th> -->
+
+                                <th>5</th>
+                                <th>4</th>
+                                <th>3</th>
+                                <th>2</th>
+                                <th>1</th>
+                                <th>Rata-Rata</th>
+                                <th>Penilan Deskriptif</th>
+                            </tr>
+
+                        @else
+                            <tr>
+                                <th colspan="3">{{$c->name}}</th>
+                                 <!-- <th>id cat</th> -->
+
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+
+                        @endif
+
+                    @endif
+
+
+
+                    <div hidden>{{$index = 0}}</div>
+                    @foreach($answer as $a)
+                       
+                            
+                        @if($p->id_page == $c->id_page)
+                            @if($p->name == $c->name)
+                                @if($a->id_category == $c->id_category)
+                                    <tr>
+                                    <td>
+                                        {{$index = $index +1}}
+                                    </td>
+                                    <td></td>
+                                    <td>{{$a->question}}</td>
+
+
+
+                                    @if($a->answer == 5)
+                                        <td>5</td><td></td><td></td><td></td><td></td>
+                                    @elseif($a->answer == 4)
+                                        <td></td><td>4</td><td></td><td></td><td></td>
+                                    @elseif($a->answer == 3)
+                                        <td></td><td></td><td>3</td><td></td><td></td>
+                                    @elseif($a->answer == 2)
+                                        <td></td><td></td><td></td><td>2</td><td></td>
+                                    @elseif($a->answer == 1)
+                                        <td></td><td></td><td></td><td></td><td>1</td>
+                                    @endif
+
+
+                                    <td ></td> 
+                                    <td>{{$a->reason}}</td> 
+                                    </tr>
+                                @endif
+                            @else
+                                @if($a->id_category == $c->id_category)
+                                    <tr>
+                                    <td></td>
+                                    <td> {{$index = $index +1}}</td>
+                                    <td>{{$a->question}}</td>
+
+
+
+                                    @if($a->answer == 5)
+                                        <td>5</td><td></td><td></td><td></td><td></td>
+                                    @elseif($a->answer == 4)
+                                        <td></td><td>4</td><td></td><td></td><td></td>
+                                    @elseif($a->answer == 3)
+                                        <td></td><td></td><td>3</td><td></td><td></td>
+                                    @elseif($a->answer == 2)
+                                        <td></td><td></td><td></td><td>2</td><td></td>
+                                    @elseif($a->answer == 1)
+                                        <td></td><td></td><td></td><td></td><td>1</td>
+                                    @endif
+
+
+                                    <td ></td> 
+                                    <td>{{$a->reason}}</td> 
+                                    </tr>
+                                @else
+                                   <div hidden> {{$index = 0}}</div>
+                                @endif
+
+                            @endif
+                        @endif
+
+                    @endforeach
+
+
+                    @if($p->id_page == $c->id_page)
+
+                        @foreach($comment as $com)
+                            @if($c->id_category == $com->id_category)
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><b>Total</b></td>
+                                    <td>{{$com->five}}</td>
+                                    <td>{{$com->four}}</td>
+                                    <td>{{$com->thre}}</td>
+                                    <td>{{$com->two}}</td>
+                                    <td>{{$com->one}}</td>
+                                    <td>{{$com->rate}}</td>
+                                    <td></td>
+                                </tr>
+                                <tr><td colspan="10"><b>{{$c->name}} Issue</b></td></tr>
+                                <tr><td colspan="10">{{$com->comment}}</td></tr>
+                                <tr><td colspan="10"></td></tr>
+                            @endif
+                        @endforeach
+                    @endif
+
+                @endforeach
+
+        @endforeach
+
+        <tr>
+            <td colspan="10">
+                <img id="chart-image" src="{{ URL::to('/') }}/admin/img/chart/respondent_{{ $respondent[0]->id_respondent }}.jpg">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10"></td>
+        </tr>
+
+
+    </tbody>
+
+    </table>
+
+
+
+
+@else
+
+
+<input hidden id="dataPage" type="" name="" value="{{$page}}">
+@foreach($result as $key => $rest)
+    <input hidden id="label{{$rest->name}}"  type="" name="{{$rest->name}}" value="{{$rest->title}}">
+    <input hidden id="data{{$rest->name}}" class="masterChart" type="" name="{{$rest->name}}" value="{{$rest->rate}}">
+@endforeach
+
+<div id="canvas-generator" class=" row" style="height: auto; padding: 0px; margin: 0px; width: 1414px; position: absolute; top: 20%; z-index: -99999999">
+
+    @foreach($page as $pages)
+        <div id="{{$pages->name}}-Box" class="col-md-4 padding-image" style=" background: #fff; padding: 0 5px">
+            <canvas id="{{$pages->name}}" width="250" height="300" style=" width: 250px!important;"></canvas>
+
+            <center>
+            <table border="1">
+                <tbody>
+                    @if($pages->id_page == $pages->id_page)
+
+                  
+                            <tr>  
+                                @foreach($category as $cm)
+                                    @if($pages->id_page == $cm->id_page)
+                                
+
+                                        <td style="font-size:10px; line-height: 12px; font-weight: bold; border:2px solid" ><center><b>{{$cm->name}}</b></center></td>
+                                    @endif
+                                @endforeach
+                            </tr>
+                            <tr>
+                                @foreach($category as $cm)
+                                    @if($pages->id_page == $cm->id_page)
+                                        
+
+                                        <td style="font-size:11px; border:2px solid"> <center>{{$cm->rate}}</center></td>
+                                    @endif
+                                @endforeach
+                            </tr>
+                   
+
+                    @endif
+                </tbody>
+            </table>
+            </center>
         </div>
-        
-        <div class="col-md-6" style=" background: #fff; padding:0px">
-            <ul id="chartLegend" style="margin: 15% 0%; padding: 0px;"></ul>
-        </div>
-  
+    @endforeach
+
 </div>
 
 
-<style type="text/css">
-    #chartLegend{
-        list-style: none;
-    }         
-    .ssesuai{
-        padding: 5px 20px;
-        background: rgba(153, 102, 255, 0.2);
-        border: solid 2px rgba(153, 102, 255, 1);
-        margin: 0px 10px;;
-    }
+<div hidden> {{ $setColSpanValue = 2 }} {{ $setColSpanHead = 3 }} @if( $category->count() > 0) {{ $setColSpanValue = 3 }} {{ $setColSpanHead = 4 }} @endif </div>
 
-    .sesuai{
-        padding: 5px 20px;
-        background: rgba(54, 162, 235, 0.2);
-        border: solid 2px rgba(54, 162, 235, 1);
-        margin: 0px 10px;;
-    }
-    .normal{
-        padding: 5px 20px;
-        background: rgba(75, 192, 192, 0.2);
-        border: solid 2px rgba(75, 192, 192, 1);
-        margin: 0px 10px;;
-    }
-    .ts{
-        padding: 5px 20px;
-        background: rgba(255, 206, 86, 0.2);
-        border: solid 2px rgba(255, 206, 86, 1);
-        margin: 0px 10px;;
-    }
-    .sts{
-        padding: 5px 20px;
-        background: rgba(255, 99, 132, 0.2);
-        border: solid 2px rgba(255, 99, 132, 1);
-        margin: 0px 10px;;
-    }
+<table border="1" id="download-report" hidden>
+<tbody>
+    @foreach($page as $p)
 
-</style>
-
-
-<div hidden> {{ $setColSpanValue = 2 }} {{ $setColSpanHead = 3 }} @if( $comment->count() > 0) {{ $setColSpanValue = 3 }} {{ $setColSpanHead = 4 }} @endif </div>
-
-<table border="1" id="download-report">
-    <thead>
-        <tr>
-            <th colspan="{{ $setColSpanHead }}"> Info Respondent</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-               <b>Nama </b>
-            </td>
-            <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->name }}</td>
-        </tr>
-        <tr>
-            <td>
-               <b>Jenis Kelamin </b>
-            </td>
-            <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->jenkel }}</td>
-        </tr>
-        <tr>
-            <td>
-               <b>Usia </b>
-            </td>
-            <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->umur }}</td>
-        </tr>
-        <tr>
-            <td>
-               <b>Pekerjaan / Pengalaman</b>
-            </td>
-            <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->pekerjaan }} / 
-
-
-                {{ $respondent[0]->pengalaman }}</td>
-        </tr>
-        <tr>
-            <td>
-               <b>Phone </b>
-            </td>
-            <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->phone_number }}</td>
-        </tr>
-        <tr>
-            <td>
-               <b>Email </b>
-            </td>
-            <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->email }}</td>
-        </tr>
-        <tr><td colspan="{{ $setColSpanHead }}"></td></tr>
-    </tbody>
-
-        <thead>
-        <tr>
-            <th colspan="{{ $setColSpanHead }}"> Info Questionnaire</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-               <b>Tipe Questionnaire </b>
-            </td>
-            <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->role }}</td>
-        </tr>
-        <tr>
-            <td>
-               <b>Create Date</b>
-            </td>
-             <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->created_at }}</td>
-        </tr>
-        <tr>
-            <td>
-               <b>Update Date</b>
-            </td>
-             <td colspan="{{ $setColSpanValue }}">{{ $respondent[0]->updated_at }}</td>
-        </tr>
-        <tr>
-            <td colspan="{{ $setColSpanHead }}" style="height:200px">
-                <center>
-                <img download="chart.png" src="{{ URL::to('/') }}/admin/img/chart/respondent_{{ $respondent[0]->id_respondent }}.jpg">
-                </center>
-            </td>
-        </tr>
-    </tbody>
-        <thead>
-            <tr><th colspan="{{ $setColSpanHead }}">
-                Result
-            </th></tr>
-            <tr class="center">
-                <th>Category</th>
-                <th>Pertanyaan</th>
-                <th>Jawaban</th>
-                @if( $comment->count() > 0)
-                    <!-- <th>cat </th> -->
-                    <!-- <th>cat2 </th> -->
-                    <th>Comment </th>
-                @endif
-  
-            </tr>
-        </thead>
-        <tbody>
             @foreach($category as $c)
-                <tr> 
+                @if($p->id_page == $c->id_page)
 
-                    <td rowspan="{{$c->j_quest}}" >{{$c->name}}</td>
+                    @if($p->name == $c->name)
+                        <tr>
+                            <th colspan="10"><h1>{{$p->name}}</h1></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">{{$c->name}}</th>
+                             <!-- <th>id cat</th> -->
 
-                            @if( $comment->count() > 0 )
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>Rata-Rata</th>
+                            <th>Penilan Deskriptif</th>
+                        </tr>
 
-   
-                                
-                                <div hidden>{{ $index = 0 }}</div>
-                                @foreach($answer as $a)
-                                    @if($a->id_category == $c->id_category)
+                    @elseif($c->name == "Penilaian Umum")
+                        <tr>
+                            <th colspan="10"><h1>{{$c->name}}</h1></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">{{$c->name}}</th>
+                             <!-- <th>id cat</th> -->
 
-                                            <td >{{$a->question}}</td>
-                                            <td >{{$jawaban[$a->id_question]}}</td> 
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>Rata-Rata</th>
+                            <th>Penilan Deskriptif</th>
+                        </tr>
 
-                                        @if($index == 0)
-                                            @foreach($comment as $com)
+                    @else
+                        <tr>
+                            <th colspan="3">{{$c->name}}</th>
+                             <!-- <th>id cat</th> -->
 
-                                                @if($c->id_category == $com->id_category)
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
 
-                                                        <td  rowspan="{{$c->j_quest}}" >{{$com->comment}}
-                                                        </td> 
-                                                    </tr>
-                                                @endif
-                                             @endforeach 
-                                        @elseif($index > 0)
-                                            </tr>
-                                        @endif
-                                        <div hidden>{{ $index= $index + 1 }}</div>
-                                       
-                                    @endif
-                                @endforeach
+                    @endif
 
+                @endif
+
+
+
+                <div hidden>{{$index = 0}}</div>
+                @foreach($answer as $a)
+                   
                         
-
-      
-
-
-                            @elseif(  $comment->count()== 0)
-                                @foreach($answer as $a)
-                                    @if($a->id_category == $c->id_category)
-                                        <td>{{$a->question}}</td>
-                                        <td>{{$jawaban[$a->id_question]}}</td>
-                                        </tr>
-                                    @endif
-                                @endforeach
+                    @if($p->id_page == $c->id_page)
+                        @if($p->name == $c->name)
+                            @if($a->id_category == $c->id_category)
+                                <tr>
+                                <td>
+                                    {{$index = $index +1}}
+                                </td>
+                                <td></td>
+                                <td>{{$a->question}}</td>
 
 
+
+                                @if($a->answer == 5)
+                                    <td>5</td><td></td><td></td><td></td><td></td>
+                                @elseif($a->answer == 4)
+                                    <td></td><td>4</td><td></td><td></td><td></td>
+                                @elseif($a->answer == 3)
+                                    <td></td><td></td><td>3</td><td></td><td></td>
+                                @elseif($a->answer == 2)
+                                    <td></td><td></td><td></td><td>2</td><td></td>
+                                @elseif($a->answer == 1)
+                                    <td></td><td></td><td></td><td></td><td>1</td>
+                                @endif
+
+
+                                <td ></td> 
+                                <td>{{$a->reason}}</td> 
+                                </tr>
+                            @endif
+                        @else
+                            @if($a->id_category == $c->id_category)
+                                <tr>
+                                <td></td>
+                                <td> {{$index = $index +1}}</td>
+                                <td>{{$a->question}}</td>
+
+
+
+                                @if($a->answer == 5)
+                                    <td>5</td><td></td><td></td><td></td><td></td>
+                                @elseif($a->answer == 4)
+                                    <td></td><td>4</td><td></td><td></td><td></td>
+                                @elseif($a->answer == 3)
+                                    <td></td><td></td><td>3</td><td></td><td></td>
+                                @elseif($a->answer == 2)
+                                    <td></td><td></td><td></td><td>2</td><td></td>
+                                @elseif($a->answer == 1)
+                                    <td></td><td></td><td></td><td></td><td>1</td>
+                                @endif
+
+
+                                <td ></td> 
+                                <td>{{$a->reason}}</td> 
+                                </tr>
+                            @else
+                               <div hidden> {{$index = 0}}</div>
                             @endif
 
-                </tr>
+                        @endif
+                    @endif
+
+                @endforeach
+
+
+                @if($p->id_page == $c->id_page)
+
+                    @foreach($category as $com)
+                        @if($c->id_category == $com->id_category)
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><b>Total</b></td>
+                                <td>{{$com->five}}</td>
+                                <td>{{$com->four}}</td>
+                                <td>{{$com->thre}}</td>
+                                <td>{{$com->two}}</td>
+                                <td>{{$com->one}}</td>
+                                <td>{{$com->rate}}</td>
+                                <td></td>
+                            </tr>
+                            <tr><td colspan="10"><b>{{$c->name}} Issue</b></td></tr>
+                            <tr><td colspan="10">-</td></tr>
+                            <tr><td colspan="10"></td></tr>
+                        @endif
+                    @endforeach
+                @endif
+
             @endforeach
-        </tbody>
+
+    @endforeach
+
+    <tr>
+        <td colspan="10">
+            <img id="chart-image" src="{{ URL::to('/') }}/admin/img/chart/respondent_{{ $respondent[0]->id_respondent }}.jpg">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10"></td>
+    </tr>
+
+
+</tbody>
+
+
+
+
 </table>
+
+
+
+
+@endif
+
+
+
