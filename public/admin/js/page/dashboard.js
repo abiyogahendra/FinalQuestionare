@@ -130,24 +130,24 @@ function DownloadReportData(id_respondent){
             });
 
           
-                var data_type = 'data:application/vnd.ms-excel';
+/*                var data_type = 'data:application/vnd.ms-excel';
                 var table_div = document.getElementById('download-report');
                 var table_html = table_div.outerHTML.replace(/ /g, '%20');
 
                 var a = document.createElement('a');
                 a.href = data_type + ', ' + table_html;
                 a.download = 'report_responden_id_'+id_respondent+'.xls';
-                a.click();
+                a.click();*/
         
 
 
 
-                // var fileName = 'report_responden_id_'+id_respondent;
-                // var fileType = "xlsx";
+                var fileName = 'report_responden_id_'+id_respondent;
+                var fileType = "xlsx";
 
-                // var table = document.getElementById("download-report");
-                // var wb = XLSX.utils.table_to_book(table, {sheet: "Sheet JS"});
-                // return XLSX.writeFile(wb, null || fileName + "." + (fileType || "xlsx"));
+                var table = document.getElementById("download-report");
+                var wb = XLSX.utils.table_to_book(table, {sheet: "Sheet JS"});
+                return XLSX.writeFile(wb, null || fileName + "." + (fileType || "xlsx"));
 
 
         }
