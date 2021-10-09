@@ -2,7 +2,7 @@
 
 
     <input hidden id="dataPage" type="" name="" value="{{$page}}">
-    @foreach($result as $key => $rest)
+    @foreach($result as $rest)
         <input hidden id="label{{$rest->name}}"  type="" name="{{$rest->name}}" value="{{$rest->title}}">
         <input hidden id="data{{$rest->name}}" class="masterChart" type="" name="{{$rest->name}}" value="{{$rest->rate}}">
     @endforeach
@@ -21,21 +21,19 @@
                     <tbody>
                         @if($pages->id_page == $pages->id_page)
 
-                      
+                                
                                 <tr>  
-                                    @foreach($comment as $cm)
-                                        @if($pages->id_page == $cm->id_page)
-                                    
+                                    @foreach($comment as $key => $cm)
+                                        @if($pages->id_page == $cm->id_page && $key > 0 && $cm->name != $pages->name)                                   
 
                                             <td style="font-size: 12px; padding: 5px 10px;line-height: 12px; font-weight: bold; border: 2px solid;" ><center><b>{{$cm->name}}</b></center></td>
                                         @endif
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    @foreach($comment as $cm)
-                                        @if($pages->id_page == $cm->id_page)
+                                    @foreach($comment as $key => $cm)
+                                        @if($pages->id_page == $cm->id_page && $key > 0 && $cm->name != $pages->name)
                                             
-
                                             <td style="font-size:14px; border:2px solid"> <center>{{$cm->rate}}</center></td>
                                         @endif
                                     @endforeach
@@ -213,7 +211,7 @@
 
         <tr>
             <td colspan="10">
-                <img id="chart-image" src="{{ URL::to('/') }}/admin/img/chart/respondent_{{ $respondent[0]->id_respondent }}_1.jpg">
+                <img id="chart-image" src="{{ URL::to('/') }}/admin/img/chart/respondent_{{ $respondent[0]->id_respondent }}_2.jpg">
             </td>
         </tr>
         <tr>
@@ -251,10 +249,13 @@
                 <tbody>
                     @if($pages->id_page == $pages->id_page)
 
+
+
+
                   
                             <tr>  
-                                @foreach($category as $cm)
-                                    @if($pages->id_page == $cm->id_page)
+                                @foreach($category as $key => $cm)
+                                    @if($pages->id_page == $cm->id_page && $key > 0 && $cm->name != $pages->name)
                                 
 
                                         <td style="font-size:12px; padding: 5px 10px; line-height: 12px; font-weight: bold; border:2px solid" ><center><b>{{$cm->name}}</b></center></td>
@@ -262,8 +263,8 @@
                                 @endforeach
                             </tr>
                             <tr>
-                                @foreach($category as $cm)
-                                    @if($pages->id_page == $cm->id_page)
+                                @foreach($category as $key => $cm)
+                                    @if($pages->id_page == $cm->id_page && $key > 0 && $cm->name != $pages->name)
                                         
 
                                         <td style="font-size:14px; border:2px solid"> <center>{{$cm->rate}}</center></td>
@@ -443,7 +444,7 @@
 
     <tr>
         <td colspan="10">
-            <img id="chart-image" src="{{ URL::to('/') }}/admin/img/chart/respondent_{{ $respondent[0]->id_respondent }}_1.jpg">
+            <img id="chart-image" src="{{ URL::to('/') }}/admin/img/chart/respondent_{{ $respondent[0]->id_respondent }}_2.jpg">
         </td>
     </tr>
     <tr>

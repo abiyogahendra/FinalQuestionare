@@ -61,6 +61,7 @@ Route::post('/process-login',[LoginController::class,'LoginAuthentication']);
 
     // report 
     Route::get('/download-report',[ReportIndexController::class,'DownloadReport']);
+    Route::get('/download-report-next',[ReportIndexController::class,'DownloadReportV2']);
     Route::post('/upload-images',[ReportIndexController::class,'StoreImage']);
 
 
