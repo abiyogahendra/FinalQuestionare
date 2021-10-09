@@ -38,7 +38,13 @@
             </div>
         </div>
     </div>
-    <div id="download-view" style="height: 0; overflow: auto;"></div>
+
+    <!-- <div id="canvas-mask" style="background: #1a2035" ></div>
+    <div id="download-view" style="position: fixed; z-index: -9999999"></div> -->
+    <div id="download-view" style=" z-index: -1000; position:  absolute;"></div>
+    <div id="canvas-mask" style="background: #1a2035; position: fixed; bottom: 0; z-index: -10;" ></div>
+    
+    <!-- height: 0; overflow: auto; -->
 
 
 
