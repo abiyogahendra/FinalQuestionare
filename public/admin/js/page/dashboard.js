@@ -106,14 +106,20 @@ function DownloadReportData(id_respondent){
                     },
                     scales: {
                       r: {
+                        max:5, // Set it to your Max value
+                        min: 0,
                         pointLabels: {
                           font: {
                             size: 14
                           }
                         },
+                        
 
                             ticks: {
-                                beginAtZero: true,
+
+                                 // You can also change the Min
+                                stepSize: 1,
+                                beginAtZero: true, // in case you change the Min
                                 font: {
                                     size: 16
                                 }
@@ -228,7 +234,7 @@ function DownloadReportDataV2(id_respondent){
             let reg = /<div hidden>.*?<\/div>/g; 
             let result = respon.replace(reg, "");
 
-            // console.log(result);
+            //console.log(result);
             $('#download-view').html(result);
 
 
@@ -241,17 +247,49 @@ function DownloadReportDataV2(id_respondent){
 
             $("input.masterChart").each(function(){
               // var idInput = $(this).attr('id'); 
+
+              var arrLabel;
+              var arrData;
+
               var name = $(this).attr('name'); 
               var label = $('#label'+name).val(); 
               var data = $(this).val(); 
 
               // console.log(name);
-              // console.log(label[0]);
-              // console.log(data[1]);
+              // console.log(label);
+              // console.log(data);
 
+
+              
+              // if (name == 'Mobility') {
+              //   arrLabel = label.split(",");
+              //   arrData = data.split(",");
+
+              //   var arrLabelSkip = [];
+              //   var arrDataSkip = [];
+              //   for (var i = 0; i < label.length; i++) {
+              //       if (arrLabel[i] == 'Design' || arrLabel[i] =='Control') {
+              //            arrLabelSkip.push(arrLabel[i]);
+              //            arrDataSkip.push(arrData[i]);
+              //       }
+              //   }
+
+              //   console.log(arrLabelSkip);
+              //   console.log(arrDataSkip);
+
+              //   arrLabel = arrLabelSkip;
+              //   arrData = arrDataSkip;
+                
+              // }else{
+                
+              // }
+
+
+              // console.log(arrLabel);
+              // console.log(arrData);
 
               arrLabel = label.split(",");
-              arrData = data.split(",");
+                arrData = data.split(",");
               Chart.defaults.font.size = 20;
               new Chart(document.getElementById(name), {
                 type: 'radar',
@@ -271,22 +309,26 @@ function DownloadReportDataV2(id_respondent){
                         }
                     },
                     scales: {
-                      r: {
+                        r: {
+                        max:5, // Set it to your Max value
+                        min: 0,
                         pointLabels: {
                           font: {
                             size: 14
                           }
                         },
+                        
 
                             ticks: {
-                                beginAtZero: true,
+
+                                 // You can also change the Min
+                                stepSize: 1,
+                                beginAtZero: true, // in case you change the Min
                                 font: {
                                     size: 16
                                 }
                             },
-               
-
-                      },
+                        },
 
 
 

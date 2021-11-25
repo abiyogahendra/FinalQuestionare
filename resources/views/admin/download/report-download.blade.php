@@ -20,8 +20,27 @@
                 <table border="1">
                     <tbody>
                         @if($pages->id_page == $pages->id_page)
-
+                            @if($pages->name == "Mobility")
                       
+                                <tr>  
+                                    @foreach($comment as $cm)
+                                        @if($cm->name == 'Design' || $cm->name =='Control')
+                                    
+
+                                            <td style="font-size: 12px; padding: 5px 10px;line-height: 12px; font-weight: bold; border: 2px solid;" ><center><b>{{$cm->name}}</b></center></td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    @foreach($comment as $cm)
+                                        @if($cm->name == 'Design' || $cm->name =='Control')
+                                            
+
+                                            <td style="font-size:14px; border:2px solid"> <center>{{$cm->rate}}</center></td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                             @else
                                 <tr>  
                                     @foreach($comment as $cm)
                                         @if($pages->id_page == $cm->id_page)
@@ -40,7 +59,7 @@
                                         @endif
                                     @endforeach
                                 </tr>
-                       
+                             @endif
 
                         @endif
                     </tbody>
@@ -249,27 +268,54 @@
             
             <table border="1">
                 <tbody>
+
+
+
+
                     @if($pages->id_page == $pages->id_page)
 
+                            @if($pages->name == "Mobility")
+                      
+                                <tr>  
+                                    @foreach($category as $cm)
+                                        @if($cm->name == 'Design' || $cm->name =='Control')
+                                    
+
+                                            <td style="font-size: 12px; padding: 5px 10px;line-height: 12px; font-weight: bold; border: 2px solid;" ><center><b>{{$cm->name}}</b></center></td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    @foreach($category as $cm)
+                                        @if($cm->name == 'Design' || $cm->name =='Control')
+                                            
+
+                                            <td style="font-size:14px; border:2px solid"> <center>{{$cm->rate}}</center></td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                             @else
+                                <tr>  
+                                    @foreach($category as $cm)
+                                        @if($pages->id_page == $cm->id_page)
+                                    
+
+                                            <td style="font-size:12px; padding: 5px 10px; line-height: 12px; font-weight: bold; border:2px solid" ><center><b>{{$cm->name}}</b></center></td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    @foreach($category as $cm)
+                                        @if($pages->id_page == $cm->id_page)
+                                            
+
+                                            <td style="font-size:14px; border:2px solid"> <center>{{$cm->rate}}</center></td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                             @endif
                   
-                            <tr>  
-                                @foreach($category as $cm)
-                                    @if($pages->id_page == $cm->id_page)
-                                
-
-                                        <td style="font-size:12px; padding: 5px 10px; line-height: 12px; font-weight: bold; border:2px solid" ><center><b>{{$cm->name}}</b></center></td>
-                                    @endif
-                                @endforeach
-                            </tr>
-                            <tr>
-                                @foreach($category as $cm)
-                                    @if($pages->id_page == $cm->id_page)
-                                        
-
-                                        <td style="font-size:14px; border:2px solid"> <center>{{$cm->rate}}</center></td>
-                                    @endif
-                                @endforeach
-                            </tr>
+                            
                    
 
                     @endif
